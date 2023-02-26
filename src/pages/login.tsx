@@ -12,20 +12,12 @@ import { useState } from "react";
 import { AppHeader } from "components/AppHeader";
 import { api } from "../utils/api";
 import { getServerAuthSession } from "server/auth";
-import { z } from "zod";
 
 // @TODO - cost-saving techniques are CRUCIAL.
 // Quillbot?
 // @TODO - fix multifetching bug with trpc (we only want it to fetch on button click!)
 
-const Home: NextPage = () => {
-  const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined,
-    {}
-  );
-
+const Login: NextPage = () => {
   return (
     <>
       <Head>
@@ -39,41 +31,44 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             Resume <span className="text-[hsl(280,100%,70%)]">AI</span> Builder
           </h1>
-          {/* {
+          {
             // @TODO - make login page
-            isLoggedIn ? ( */}
-          <>
-            {/* <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2rem]">
-              Enter job info to generate a bullet point
-            </h2>
-            <textarea
-              value={text}
-              onChange={handleChange}
-              className="h-48 w-full rounded-md pl-2 pt-2 text-xl leading-normal sm:w-[600px]"
-              maxLength={1000}
-            />
+            isLoggedIn ? (
+              <>
+                <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2rem]">
+                  Enter job info to generate a bullet point
+                </h2>
+                <textarea
+                  value={text}
+                  onChange={handleChange}
+                  className="h-48 w-full rounded-md pl-2 pt-2 text-xl leading-normal sm:w-[600px]"
+                  maxLength={1000}
+                />
 
-            <button
-              onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                handleClick(e).catch(() => null);
-              }}
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-            >
-              Generate
-            </button> */}
-            {/* <p className="text-2xl text-white">Dot points: </p> */}
-            {/* <p className="text-2xl text-white">{data?.choices[0]?.text}</p>
-            <button
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-              onClick={() => void signOut()}
-            >
-              Log out
-            </button> */}
-            <p className="text-center text-2xl text-white">
-              {secretMessage && <span> {secretMessage}</span>}
-            </p>
-          </>
-          {/* ) : (
+                <button
+                  onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                    handleClick(e).catch(() => null);
+                  }}
+                  className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+                >
+                  Generate
+                </button>
+                <p className="text-2xl text-white">Dot points: </p>
+                <p className="text-2xl text-white">{data?.choices[0]?.text}</p>
+                <button
+                  className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+                  onClick={() => void signOut()}
+                >
+                  Log out
+                </button>
+                <p className="text-center text-2xl text-white">
+                  {sessionData && (
+                    <span>Logged in as {sessionData.user?.name}</span>
+                  )}
+                  {secretMessage && <span> - {secretMessage}</span>}
+                </p>
+              </>
+            ) : (
               <div className="flex flex-col items-center gap-2">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <button
@@ -91,28 +86,9 @@ const Home: NextPage = () => {
                 </div>
               </div>
             )
-          } */}
+          }
         </div>
       </main>
     </>
   );
-};
-
-export default Home;
-
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext
-) => {
-  const session = await getServerAuthSession(ctx);
-
-  if (!session) {
-    return {
-      props: {},
-      redirect: "/login",
-    };
-  }
-
-  return {
-    props: {},
-  };
 };

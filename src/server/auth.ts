@@ -5,6 +5,7 @@ import {
   type DefaultSession,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
+import LinkedInProvider from "next-auth/providers/linkedin";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
@@ -52,6 +53,10 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+    }),
+    LinkedInProvider({
+      clientId: env.LINKEDIN_CLIENT_ID,
+      clientSecret: env.LINKEDIN_CLIENT_SECRET,
     }),
     /**
      * ...add more providers here
