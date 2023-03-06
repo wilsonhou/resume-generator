@@ -4,8 +4,6 @@ import Image from "next/image";
 export const AppHeader = () => {
   const { data: sessionData } = useSession();
 
-  console.log(sessionData);
-  console.log(sessionData?.user?.name);
   return (
     <header className="m-0 flex items-center justify-between border-b border-gray-200  bg-[#2e026d] px-4 py-3">
       <div className="text-white">Logo</div>
