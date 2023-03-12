@@ -122,3 +122,8 @@ model Education {
   resume       Resume?   @relation(fields: [resumeId], references: [id])
   resumeId     String?   @unique
 }
+
+model Email {
+  id      String @id @default(uuid())
+  address String @unique
+}
